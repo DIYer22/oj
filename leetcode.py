@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-from yllab import *
+from boxx import *
 #import yllab as yl
 from dataStruct import *
 from copy import deepcopy
@@ -10,6 +10,86 @@ from copy import deepcopy
 #         self.val = x
 #         self.left = None
 #         self.right = None
+
+        
+        
+
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        n = len(nums)
+        l,r=0,n-1
+        while 1:
+            m = (l+r)//2
+            if r<l:
+                return [-1, -1]
+            if nums[m] == target:
+                ind = m
+                break
+            if nums[m] >= target:
+                l,r = l,m-1
+            else:
+                l,r = m+1,r
+        l,r = ind, ind
+        while l >= 0 and nums[l] == target:
+            l-=1
+            
+        while r< n and nums[r] == target:
+            r+=1
+        return [l+1,r-1]
+                            
+        
+so = Solution()
+inp = [1],1
+re = so.__getattribute__(dir(so)[-1])(*inp);print re
+        
+
+
+class Solution(object):
+    @reuse
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n <= 1:
+            return 1
+        r = 0
+        for i in range(n):
+            r += self.numTrees(i) * self.numTrees(n-1-i)
+        return r
+        
+        
+#so = Solution()
+#inp = 5,
+#re = so.__getattribute__(dir(so)[-1])(*inp);print re
+        
+
+class Solution(object):
+    def averageOfLevels(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[float]
+        """
+        if not root :
+            return []
+        re = [[root.val]]
+        def f(l):
+            r = filter(None,reduce(lambda a,b:a+b, [[i.left,i.right] for i in l],[]))
+            if len(r):
+               re.append([i.val for i in r])
+               f(r)
+        f([root])
+        return [sum(l)*1./len(l) for l in re]
+#
+#so = Solution()
+#inp = TreeNode([3,9,20,null,null,15,7]),
+#re = so.__getattribute__(dir(so)[-1])(*inp);print re
+
 
 class Solution(object):
     def postorderTraversal(self, r, d=None):
@@ -36,9 +116,9 @@ class Solution(object):
                     r = None
         return d 
     
-so = Solution()
-inp = TreeNode([1,2,2,3,3,null,null,4,4]),
-re = so.__getattribute__(dir(so)[-1])(*inp);print re
+#so = Solution()
+#inp = TreeNode([1,2,2,3,3,null,null,4,4]),
+#re = so.__getattribute__(dir(so)[-1])(*inp);print re
 class Solution(object):
     def maxPathSum(self, root):
         """
